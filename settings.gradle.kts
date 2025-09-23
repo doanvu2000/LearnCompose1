@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "LearnCompose1"
 include(":app")
+include(":core")
