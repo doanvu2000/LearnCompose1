@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.jin.compose.core.ui.scaffold.RootApp
+import com.solar.learncompose1.ui.navigation.NavigationApp
 import com.solar.learncompose1.ui.theme.LearnCompose1Theme
 
 class MainActivity : ComponentActivity() {
@@ -18,7 +19,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             LearnCompose1Theme {
                 RootApp {
-                    Greeting(name = "Android")
+                    NavigationApp()
                 }
             }
         }
