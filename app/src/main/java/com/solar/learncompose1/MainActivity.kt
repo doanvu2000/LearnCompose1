@@ -8,7 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.jin.compose.core.ui.scaffold.RootComposeApp
+import com.jin.compose.core.ui.scaffold.RootApp
 import com.solar.learncompose1.ui.theme.LearnCompose1Theme
 
 class MainActivity : ComponentActivity() {
@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LearnCompose1Theme {
-                RootComposeApp {
+                RootApp {
                     Greeting(name = "Android")
                 }
             }
@@ -36,7 +36,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     LearnCompose1Theme {
-        RootComposeApp {
+        RootApp {
             Greeting(name = "Android")
         }
     }
