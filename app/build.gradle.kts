@@ -9,13 +9,13 @@ plugins {
 }
 
 android {
-    namespace = "com.solar.learncompose1"
+    namespace = "com.jin.learncompose1"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.solar.learncompose1"
+        applicationId = "com.jin.learncompose1"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
