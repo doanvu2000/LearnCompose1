@@ -12,7 +12,7 @@ class ApiRepositoryImpl @Inject constructor(
         val dataResponse = apiService.getData()
         return DomainApiResponse(
             phone = dataResponse.phone,
-            mediumMuseum = dataResponse.medium_museum
+            mediumMuseum = dataResponse.mediumMuseum
         )
     }
 

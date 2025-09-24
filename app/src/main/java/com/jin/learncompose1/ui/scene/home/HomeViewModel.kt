@@ -3,6 +3,7 @@ package com.jin.learncompose1.ui.scene.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jin.learncompose1.data.model.LoadingState
 import com.jin.learncompose1.domain.usecase.ApiUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,20 +30,20 @@ class HomeViewModel @Inject constructor(
     fun getData() {
         viewModelScope.launch {
             _homeUiState.update {
-                it.copy(isLoading = true)
+                it.copy(loadingState = LoadingState.Loading)
             }
 
             try {
                 val response = apiUseCase.getData()
 
                 _homeUiState.update {
-                    it.copy(isLoading = false, response = response)
+                    it.copy(loadingState = LoadingState.Success, response = response)
                 }
                 Log.d(TAG, "getData: $response")
             } catch (e: Exception) {
                 e.printStackTrace()
                 _homeUiState.update {
-                    it.copy(isLoading = false)
+                    it.copy(loadingState = LoadingState.Error(e.message ?: "Unknown Error"))
                 }
             }
         }

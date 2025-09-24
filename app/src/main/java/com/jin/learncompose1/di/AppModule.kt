@@ -26,7 +26,6 @@ object AppModule {
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
     @Binds
-    @Provides
     abstract fun bindApiRepository(
         apiRepositoryImpl: ApiRepositoryImpl
     ): ApiRepository

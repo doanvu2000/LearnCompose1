@@ -16,6 +16,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.jin.compose.core.ui.scaffold.ColumnCenterItem
 import com.jin.compose.core.ui.scaffold.RowCenterItem
+import com.jin.learncompose1.data.model.LoadingState
 
 @Composable
 fun HomeScreen(
@@ -29,6 +30,32 @@ fun HomeScreen(
         }
     }
 
+    when (homeUiState.loadingState) {
+        is LoadingState.Error -> {
+
+            ColumnCenterItem {
+                Text(text = "Error: ${(homeUiState.loadingState as LoadingState.Error).error}")
+            }
+        }
+
+        LoadingState.Loading -> {
+            ColumnCenterItem(modifier = Modifier.fillMaxSize()) {
+                CircularProgressIndicator(modifier = Modifier.size(30.dp))
+            }
+        }
+
+        LoadingState.Success -> {
+            RowCenterItem(modifier = Modifier.fillMaxSize()) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(10.dp),
+                    text = "${response?.phone ?: ""} ${response?.mediumMuseum ?: ""}"
+                )
+            }
+        }
+    }
+
     if (homeUiState.isLoading) {
         ColumnCenterItem(modifier = Modifier.fillMaxSize()) {
             CircularProgressIndicator(modifier = Modifier.size(30.dp))
@@ -39,7 +66,7 @@ fun HomeScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(10.dp),
-                text = "${response?.phone ?: ""} ${response?.medium_museum ?: ""}"
+                text = "${response?.phone ?: ""} ${response?.mediumMuseum ?: ""}"
             )
         }
     }
