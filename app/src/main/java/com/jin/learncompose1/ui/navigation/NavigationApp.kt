@@ -10,13 +10,14 @@ import com.jin.learncompose1.ui.scene.splash.SplashScreen
 @Composable
 fun NavigationApp() {
     val navController = rememberNavController()
-    val startDestination = Screen.Splash.route
+    val startDestination = SPLASH_SCREEN_ROUTE
+
     NavHost(navController, startDestination = startDestination) {
-        composableWithAnimation(Screen.Splash.route) {
+        composableWithAnimation(SPLASH_SCREEN_ROUTE) {
             SplashScreen(navController)
         }
 
-        composableWithAnimation(Screen.Home.route) {
+        composableWithAnimation(HOME_SCREEN_ROUTE) {
             HomeScreen(navController)
         }
     }
