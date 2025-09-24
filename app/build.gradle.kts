@@ -74,4 +74,9 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
+
+    implementation(libs.coil.compose)
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.3.0") // Only available on Android/JVM.
+    implementation("io.coil-kt.coil3:coil-network-ktor2:3.3.0")
+    implementation("io.coil-kt.coil3:coil-network-ktor3:3.3.0")
 }
