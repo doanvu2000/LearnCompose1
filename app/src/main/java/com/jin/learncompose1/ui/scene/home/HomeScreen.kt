@@ -8,6 +8,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.jin.learncompose1.data.model.LoadingState
+import com.jin.learncompose1.ui.navigation.DETAIL_IMAGE_SCREEN_ROUTE
 
 @Composable
 fun HomeScreen(
@@ -33,7 +34,13 @@ fun HomeScreen(
         }
 
         LoadingState.Success -> {
-            HomeContent(response)
+            HomeContent(response) {
+                navController.currentBackStackEntry
+                    ?.savedStateHandle
+                    ?.set("url", it)
+
+                navController.navigate(DETAIL_IMAGE_SCREEN_ROUTE)
+            }
         }
     }
 }

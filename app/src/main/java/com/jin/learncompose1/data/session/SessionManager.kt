@@ -9,6 +9,10 @@ fun baseUrl(): String {
     return "${ROOT_LINK}/${USER_NAME}/${REPO_NAME}/${BRANCH_NAME}/"
 }
 
+/**
+ * fuck, github automatic delete my token key, so i set repo visibility is public
+ * https://github.com/doanvu2000/TestServerAPI1/tree/master
+ */
 fun token(): String {
     return "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"
 }

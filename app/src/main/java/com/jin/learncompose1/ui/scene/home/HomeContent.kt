@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jin.compose.core.ui.list.GridListTwo
 import com.jin.compose.core.ui.scaffold.ColumnCenterItem
-import com.jin.compose.core.util.toast
 import com.jin.learncompose1.domain.model.DomainApiResponse
 import com.jin.learncompose1.ui.theme.HeaderColor1
 import com.jin.learncompose1.ui.theme.HeaderColor2
@@ -26,9 +25,7 @@ import com.jin.learncompose1.ui.widget.TokenImageWithIndicator
 import com.jin.learncompose1.util.getUrlWithEndPoint
 
 @Composable
-fun HomeContent(response: DomainApiResponse?) {
-    val context = LocalContext.current
-
+fun HomeContent(response: DomainApiResponse?, onClickItem: ((url: String) -> Unit)? = null) {
     ColumnCenterItem(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -47,7 +44,7 @@ fun HomeContent(response: DomainApiResponse?) {
             items(phoneSize) { index ->
                 val url = phoneUrls.getOrNull(index) ?: ""
                 ImageItem(url) {
-                    context.toast("click phone item at index: $index")
+                    onClickItem?.invoke(url.getUrlWithEndPoint())
                 }
             }
             //Header Medium Museum Image
@@ -58,7 +55,7 @@ fun HomeContent(response: DomainApiResponse?) {
             items(mediumMuseumSize) { index ->
                 val url = mediumMuseumUrls.getOrNull(index) ?: ""
                 ImageItem(url) {
-                    context.toast("click medium museum item at index: $index")
+                    onClickItem?.invoke(url.getUrlWithEndPoint())
                 }
             }
         }
@@ -78,7 +75,7 @@ private fun ImageItem(url: String, onClickItem: (() -> Unit)? = null) {
             onClickItem?.invoke()
         }) {
         val ctx = LocalContext.current
-        TokenImageWithIndicator(ctx, url.getUrlWithEndPoint())
+        TokenImageWithIndicator(modifier = Modifier.fillMaxSize(), ctx, url.getUrlWithEndPoint())
     }
 }
 

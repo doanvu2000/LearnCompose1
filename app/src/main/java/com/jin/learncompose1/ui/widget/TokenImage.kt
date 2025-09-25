@@ -20,6 +20,7 @@ import coil3.request.CachePolicy
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.jin.learncompose1.data.session.token
+import com.jin.learncompose1.ui.theme.HeaderColor1
 import com.jin.learncompose1.util.logDebug
 
 private fun getHeaderNetwork(): NetworkHeaders {
@@ -42,20 +43,32 @@ fun TokenImage(
 }
 
 @Composable
-fun TokenImageWithIndicator(ctx: Context, url: String) {
+fun TokenImageWithIndicator(
+    modifier: Modifier = Modifier,
+    ctx: Context, url: String
+) {
     logDebug("url: $url")
 
+    val imageRequestBuilder = ImageRequest.Builder(ctx).data(url)
+        .memoryCachePolicy(CachePolicy.DISABLED)//not cache to ram
+        .diskCachePolicy(CachePolicy.ENABLED)// only cache to disk
+        .crossfade(true)
+
+    val isEnableHeader = false
+    if (isEnableHeader) {
+        imageRequestBuilder.httpHeaders(getHeaderNetwork())
+    }
+
     SubcomposeAsyncImage(
-        model = ImageRequest.Builder(ctx).data(url).httpHeaders(getHeaderNetwork())
-            .memoryCachePolicy(CachePolicy.DISABLED)//not cache to ram
-            .diskCachePolicy(CachePolicy.ENABLED)// only cache to disk
-            .crossfade(true).build(),
+        model = imageRequestBuilder.build(),
         contentScale = ContentScale.Crop,
         contentDescription = null,
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier,
         loading = {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
+                CircularProgressIndicator(
+                    color = HeaderColor1
+                )
             }
         },
         error = {

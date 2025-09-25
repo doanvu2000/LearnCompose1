@@ -15,8 +15,11 @@ interface ApiService {
     }
 
     @GET("data.json")
-    suspend fun getData(
+    suspend fun getDataWithHeader(
         @Header("Accept") accept: String = ACCEPT,
         @Header("Authorization") authorization: String = getToken()
     ): DomainApiResponse
+
+    @GET("data.json")
+    suspend fun getData(): DomainApiResponse
 }
