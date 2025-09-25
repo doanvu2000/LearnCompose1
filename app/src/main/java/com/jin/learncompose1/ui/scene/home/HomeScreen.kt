@@ -23,7 +23,9 @@ fun HomeScreen(
 
     when (homeUiState.loadingState) {
         is LoadingState.Error -> {
-            HomeErrorLayout(homeUiState.loadingState)
+            HomeErrorLayout {
+                viewModel.getData()
+            }
         }
 
         LoadingState.Loading -> {

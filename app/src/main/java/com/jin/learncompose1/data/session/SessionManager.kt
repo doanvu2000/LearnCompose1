@@ -10,5 +10,5 @@ fun baseUrl(): String {
 }
 
 fun token(): String {
-    return "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"
+    return "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"
 }
