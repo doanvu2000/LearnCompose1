@@ -14,5 +14,5 @@ fun baseUrl(): String {
  * https://github.com/doanvu2000/TestServerAPI1/tree/master
  */
 fun token(): String {
-    return "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"
+    return ""
 }

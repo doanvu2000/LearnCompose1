@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Build
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -74,7 +74,8 @@ fun TokenImageWithIndicator(
         error = {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Icon(
-                    imageVector = Icons.Outlined.Build, contentDescription = "Load lỗi"
+                    imageVector = Icons.AutoMirrored.Default.ExitToApp,
+                    contentDescription = "Load lỗi"
                 )
             }
         })

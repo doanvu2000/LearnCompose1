@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.jin.learncompose1.data.model.LoadingState
 import com.jin.learncompose1.domain.usecase.ApiUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -35,20 +34,12 @@ class HomeViewModel @Inject constructor(
             }
 
             try {
-                val randomFailedOrSuccess = (0..1).random()
-                if (randomFailedOrSuccess == 0) {
-                    delay((1000L..2500L).random())
-                    _homeUiState.update {
-                        it.copy(loadingState = LoadingState.Error(""), response = null)
-                    }
-                } else {
-                    val response = apiUseCase.getData()
+                val response = apiUseCase.getData()
 
-                    _homeUiState.update {
-                        it.copy(loadingState = LoadingState.Success, response = response)
-                    }
-                    Log.d(TAG, "getData: $response")
+                _homeUiState.update {
+                    it.copy(loadingState = LoadingState.Success, response = response)
                 }
+                Log.d(TAG, "getData: $response")
             } catch (e: Exception) {
                 e.printStackTrace()
                 _homeUiState.update {
