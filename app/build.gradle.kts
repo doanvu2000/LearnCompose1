@@ -19,9 +19,12 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+//        val formattedDate = SimpleDateFormat("MM.dd.yyyy_hh.mm").format(Date())
+        base.archivesName = "Compose_Learn($versionName)"
     }
 
     buildTypes {
@@ -79,4 +82,14 @@ dependencies {
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.3.0") // Only available on Android/JVM.
     implementation("io.coil-kt.coil3:coil-network-ktor2:3.3.0")
     implementation("io.coil-kt.coil3:coil-network-ktor3:3.3.0")
+}
+
+inline fun <reified ValueT> com.android.build.api.dsl.VariantDimension.buildConfigField(
+    name: String, value: ValueT
+) {
+    val resolvedValue = when (value) {
+        is String -> "\"$value\""
+        else -> value
+    }.toString()
+    buildConfigField(ValueT::class.java.simpleName, name, resolvedValue)
 }

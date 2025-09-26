@@ -50,8 +50,8 @@ fun TokenImageWithIndicator(
     logDebug("url: $url")
 
     val imageRequestBuilder = ImageRequest.Builder(ctx).data(url)
-        .memoryCachePolicy(CachePolicy.DISABLED)//not cache to ram
-        .diskCachePolicy(CachePolicy.ENABLED)// only cache to disk
+//        .memoryCachePolicy(CachePolicy.DISABLED)//not cache to ram
+//        .diskCachePolicy(CachePolicy.ENABLED)// only cache to disk
         .crossfade(true)
 
     val isEnableHeader = false
