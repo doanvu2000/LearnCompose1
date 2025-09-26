@@ -1,7 +1,9 @@
 package com.jin.learncompose1.ui.scene.detail
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,6 +18,7 @@ import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -66,7 +69,7 @@ fun DetailImage(
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
-        val (btnBack, detailImage, btnSetWallpaper) = createRefs()
+        val (btnBack, detailImage, btnShare, btnSetWallpaper) = createRefs()
 
         Icon(
             imageVector = Icons.AutoMirrored.Default.ArrowBack,
@@ -86,7 +89,7 @@ fun DetailImage(
                 top.linkTo(btnBack.bottom, margin = 16.dp)
                 start.linkTo(parent.start, margin = 16.dp)
                 end.linkTo(parent.end, margin = 16.dp)
-                bottom.linkTo(btnSetWallpaper.top, margin = 16.dp)
+                bottom.linkTo(btnShare.top, margin = 16.dp)
                 width = Dimension.fillToConstraints
                 height = Dimension.fillToConstraints
                 }, shape = RoundedCornerShape(12.dp)
@@ -94,6 +97,35 @@ fun DetailImage(
             TokenImageWithIndicator(
                 modifier = Modifier.fillMaxSize(), ctx, url
             )
+        }
+
+        ElevatedButton(
+            modifier = Modifier.constrainAs(btnShare) {
+                bottom.linkTo(btnSetWallpaper.top, margin = 12.dp)
+                start.linkTo(parent.start, margin = 16.dp)
+                end.linkTo(parent.end, margin = 16.dp)
+                width = Dimension.fillToConstraints
+            },
+            colors = ButtonDefaults.elevatedButtonColors(containerColor = White),
+            shape = RoundedCornerShape(16.dp),
+            contentPadding = PaddingValues(vertical = 14.dp),
+            enabled = !uiState.isSharing,
+            onClick = {
+                viewModel.shareImage(ctx, url)
+            }) {
+            if (uiState.isSharing) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(20.dp),
+                    color = colorText
+                )
+            } else {
+                Text(
+                    "Share Image",
+                    color = colorText,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
+            }
         }
 
         ElevatedButton(
@@ -108,7 +140,7 @@ fun DetailImage(
             contentPadding = PaddingValues(vertical = 14.dp),
             enabled = !uiState.isLoading,
             onClick = {
-                viewModel.setWallpaper(ctx, url)
+                viewModel.showWallpaperOptions()
             }) {
             Text(
                 "Set as Wallpaper",
@@ -122,6 +154,22 @@ fun DetailImage(
     // Loading Dialog
     if (uiState.isLoading) {
         LoadingDialog()
+    }
+
+    // Wallpaper Options Dialog
+    if (uiState.showWallpaperOptions) {
+        WallpaperOptionsDialog(
+            onDismiss = { viewModel.hideWallpaperOptions() },
+            onHomeWallpaper = {
+                viewModel.setWallpaper(ctx, url, WallpaperType.HOME)
+            },
+            onLockWallpaper = {
+                viewModel.setWallpaper(ctx, url, WallpaperType.LOCK)
+            },
+            onBothWallpaper = {
+                viewModel.setWallpaper(ctx, url, WallpaperType.BOTH)
+            }
+        )
     }
 }
 
@@ -145,6 +193,84 @@ private fun LoadingDialog() {
                 CircularProgressIndicator()
             }
         })
+}
+
+@Composable
+private fun WallpaperOptionsDialog(
+    onDismiss: () -> Unit,
+    onHomeWallpaper: () -> Unit,
+    onLockWallpaper: () -> Unit,
+    onBothWallpaper: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                text = "Set as Wallpaper",
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold
+            )
+        },
+        text = {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                ElevatedButton(
+                    onClick = {
+                        onHomeWallpaper()
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.elevatedButtonColors(containerColor = White),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text(
+                        "Home Screen",
+                        color = colorText,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+
+                ElevatedButton(
+                    onClick = {
+                        onLockWallpaper()
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.elevatedButtonColors(containerColor = White),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text(
+                        "Lock Screen",
+                        color = colorText,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+
+                ElevatedButton(
+                    onClick = {
+                        onBothWallpaper()
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.elevatedButtonColors(containerColor = White),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text(
+                        "Both Screens",
+                        color = colorText,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = onDismiss
+            ) {
+                Text("Cancel")
+            }
+        }
+    )
 }
 
 fun ConstrainScope.fullWidthBelow(
